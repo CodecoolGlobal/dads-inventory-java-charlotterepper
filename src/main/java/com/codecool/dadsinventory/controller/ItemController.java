@@ -23,7 +23,7 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public String getAllBySeachTerm(@RequestParam(name = "searchterm") String searchTerm, Model model) {
+    public String getAllBySearchTerm(@RequestParam(name = "searchterm") String searchTerm, Model model) {
         List<Item> items = itemService.getAllBySearchTerm(searchTerm);
         String title = "Dad's inventory";
         model.addAttribute("title", title);
