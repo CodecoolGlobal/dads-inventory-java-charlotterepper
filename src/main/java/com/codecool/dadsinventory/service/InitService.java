@@ -25,7 +25,7 @@ public class InitService {
     public void seedDatabase() {
         Category smallCat = Category.builder().name("small").build();
         Category mediumCat = Category.builder().name("medium").build();
-        Category largeCat = Category.builder().name("medium").build();
+        Category largeCat = Category.builder().name("large").build();
 
         smallCat = categoryRepository.saveAndFlush(smallCat);
         mediumCat = categoryRepository.saveAndFlush(mediumCat);
