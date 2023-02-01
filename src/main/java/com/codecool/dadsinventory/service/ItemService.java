@@ -24,10 +24,10 @@ public class ItemService {
         if (searchTerm == null || searchTerm.isEmpty()) {
             searchTerm = "";
         }
-        String finalSearchTerm = searchTerm;
+        String finalSearchTerm = searchTerm.toLowerCase();
         List<Item> items = itemRepository.findAll()
                 .stream()
-                .filter(item -> item.getName()
+                .filter(item -> item.getName().toLowerCase()
                         .contains(finalSearchTerm))
                 .collect(Collectors.toList());
         return items;
