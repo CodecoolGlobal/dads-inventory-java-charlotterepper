@@ -1,10 +1,8 @@
 package com.codecool.dadsinventory.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Builder
+@Getter
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

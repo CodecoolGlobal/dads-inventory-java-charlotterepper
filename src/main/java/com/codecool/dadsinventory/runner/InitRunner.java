@@ -1,28 +1,27 @@
-package com.codecool.dadsinventory.service;
+package com.codecool.dadsinventory.runner;
 
 import com.codecool.dadsinventory.model.Category;
 import com.codecool.dadsinventory.model.Item;
 import com.codecool.dadsinventory.repository.CategoryRepository;
 import com.codecool.dadsinventory.repository.ItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import java.util.Arrays;
 import java.util.List;
 
-@Service
-public class InitService {
+@Configuration
+@RequiredArgsConstructor
+@Profile("!test")
+public class InitRunner implements CommandLineRunner {
 
     private final ItemRepository itemRepository;
     private final CategoryRepository categoryRepository;
 
-    @Autowired
-    public InitService(ItemRepository itemRepository, CategoryRepository categoryRepository) {
-        this.itemRepository = itemRepository;
-        this.categoryRepository = categoryRepository;
-    }
-
-    public void seedDatabase() {
+    @Override
+    public void run(String... args) throws Exception {
         Category smallCat = Category.builder().name("small").build();
         Category mediumCat = Category.builder().name("medium").build();
         Category largeCat = Category.builder().name("large").build();
@@ -43,6 +42,4 @@ public class InitService {
         largeCat.setItems(List.of(ship));
         categoryRepository.saveAllAndFlush(Arrays.asList(smallCat, mediumCat, largeCat));
     }
-
-
 }

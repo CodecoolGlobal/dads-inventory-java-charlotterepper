@@ -1,9 +1,6 @@
 package com.codecool.dadsinventory.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
