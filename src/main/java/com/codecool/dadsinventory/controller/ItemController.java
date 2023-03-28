@@ -2,9 +2,9 @@ package com.codecool.dadsinventory.controller;
 
 import com.codecool.dadsinventory.model.Item;
 import com.codecool.dadsinventory.service.ItemService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import com.codecool.dadsinventory.service.PrincipalService;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +17,12 @@ import java.util.List;
 @Controller
 public class ItemController {
 
-    ItemService itemService;
+    private final ItemService itemService;
+    private final PrincipalService principalService;
 
-    @Autowired
-    public ItemController(ItemService itemService) {
+    public ItemController(ItemService itemService, PrincipalService principalService) {
         this.itemService = itemService;
+        this.principalService = principalService;
     }
 
     @GetMapping("/search")
@@ -37,6 +38,7 @@ public class ItemController {
     public String getItemById(@PathVariable("id") Long id, Model model) {
         Item item = itemService.getById(id);
         model.addAttribute("item", item);
+        model.addAttribute("principal", principalService.getPrincipalName());
         return "details";
     }
 }
