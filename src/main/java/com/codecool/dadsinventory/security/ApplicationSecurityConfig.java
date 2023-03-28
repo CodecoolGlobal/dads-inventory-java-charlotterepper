@@ -19,11 +19,11 @@ import static com.codecool.dadsinventory.security.ApplicationUserRole.*;
 @Configuration
 @EnableWebSecurity
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordConfig passwordConfig;
 
     @Autowired
-    public ApplicationSecurityConfig(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
+    public ApplicationSecurityConfig(PasswordConfig passwordConfig) {
+        this.passwordConfig = passwordConfig;
     }
 
 
@@ -60,13 +60,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected UserDetailsService userDetailsService() {
         UserDetails dad = User.builder()
                 .username("dad")
-                .password(passwordEncoder.encode("password"))
+                .password(passwordConfig.passwordEncoder().encode("password"))
                 .roles(DAD.name())
                 .build();
 
         UserDetails mom = User.builder()
                 .username("mom")
-                .password(passwordEncoder.encode("password123"))
+                .password(passwordConfig.passwordEncoder().encode("password123"))
                 .roles(MOM.name())
                 .build();
 
