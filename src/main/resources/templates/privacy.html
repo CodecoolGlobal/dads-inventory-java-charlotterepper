@@ -25,6 +25,9 @@
 
                 </ul>
             </div>
+            <strong><span class="navbar-brand" th:if="${principal != 'anonymousUser'}">User: <span class="navbar-brand" th:text="${principal}">username</span></span></strong>
+            <a class="btn btn-primary btn-md" th:if="${principal == 'anonymousUser'}" th:href="@{/login}">Login</a>
+            <a class="btn btn-primary btn-md" th:if="${principal != 'anonymousUser'}" th:href="@{/logout}">Logout</a>
         </div>
     </nav>
 </header>

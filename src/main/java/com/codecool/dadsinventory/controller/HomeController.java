@@ -2,11 +2,9 @@ package com.codecool.dadsinventory.controller;
 
 import com.codecool.dadsinventory.model.Item;
 import com.codecool.dadsinventory.service.ItemService;
+import com.codecool.dadsinventory.service.PrincipalService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,13 +18,14 @@ public class HomeController {
 
     private static final Logger log = LoggerFactory.getLogger(HomeController.class);
     private final ItemService itemService;
+    private final PrincipalService principalService;
 
-    @Autowired
-    public HomeController(ItemService itemService) {
+    public HomeController(ItemService itemService, PrincipalService principalService) {
         this.itemService = itemService;
+        this.principalService = principalService;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public String index(Model model, @RequestParam(name="searchTerm", required = false, defaultValue = "") String searchTerm){
         String title = "Dad's Inventory";
         model.addAttribute("title", title);
@@ -34,14 +33,7 @@ public class HomeController {
         List<Item> items = itemService.getAllBySearchTerm(searchTerm);
         model.addAttribute("title", title);
         model.addAttribute("items", items);
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username;
-        if (principal instanceof UserDetails) {
-            username = ((UserDetails)principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-        model.addAttribute("principal", username);
+        model.addAttribute("principal", principalService.getPrincipalName());
         return "index";
     }
 
@@ -49,6 +41,7 @@ public class HomeController {
     public String privacy(Model model){
         String title = "Privacy Policy";
         model.addAttribute("title", title);
+        model.addAttribute("principal", principalService.getPrincipalName());
         return "privacy";
     }
 

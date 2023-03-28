@@ -9,12 +9,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import static com.codecool.dadsinventory.security.ApplicationUserRole.*;
+import static com.codecool.dadsinventory.security.ApplicationUserRole.DAD;
+import static com.codecool.dadsinventory.security.ApplicationUserRole.MOM;
 
 @Configuration
 @EnableWebSecurity
@@ -40,6 +40,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
+                .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .defaultSuccessUrl("/", true)
@@ -53,6 +55,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID")
                     .logoutSuccessUrl("/");
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new com.javadevjournal.core.security.handlers.CustomAccessDeniedHandler();
     }
 
     @Override
