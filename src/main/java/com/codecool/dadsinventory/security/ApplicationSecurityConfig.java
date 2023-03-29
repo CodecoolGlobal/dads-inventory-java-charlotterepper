@@ -55,7 +55,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
-        return new com.javadevjournal.core.security.handlers.CustomAccessDeniedHandler();
+        return new CustomAccessDeniedHandler();
     }
 
     @Override
