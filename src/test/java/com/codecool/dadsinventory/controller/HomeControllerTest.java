@@ -45,4 +45,26 @@ public class HomeControllerTest {
                 .andExpect(model().hasNoErrors());
     }
 
+    @Test
+    @WithMockUser(username="mom", roles = {"MOM"})
+    void testPrivacyWithAuthorizedUser() throws Exception {
+        when(principalService.getPrincipalName()).thenReturn("mom");
+
+        mvc.perform(get("/home/privacy"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("privacy"))
+                .andExpect(model().attribute("title", "Privacy Policy"))
+                .andExpect(model().attribute("principal", "mom"))
+                .andExpect(model().hasNoErrors());
+    }
+
+    @Test
+    @WithMockUser(username="dad", roles = {"DAD"})
+    void testPrivacyWithUnauthorizedUser() throws Exception {
+        when(principalService.getPrincipalName()).thenReturn("dad");
+
+        mvc.perform(get("/home/privacy"))
+                .andExpect(status().isFound());
+    }
+
 }
