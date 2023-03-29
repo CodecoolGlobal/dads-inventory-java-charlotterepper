@@ -31,7 +31,7 @@ public class ItemController {
         String title = "Dad's inventory";
         model.addAttribute("title", title);
         model.addAttribute("items", items);
-        return "lists";
+        return "fragments/lists";
     }
 
     @GetMapping("/item/details/{id}")
