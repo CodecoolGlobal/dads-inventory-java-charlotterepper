@@ -66,5 +66,4 @@ public class HomeControllerTest {
         mvc.perform(get("/home/privacy"))
                 .andExpect(status().isFound());
     }
-
 }
