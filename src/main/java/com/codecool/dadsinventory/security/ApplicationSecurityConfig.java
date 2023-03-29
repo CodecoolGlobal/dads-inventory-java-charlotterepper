@@ -1,6 +1,5 @@
 package com.codecool.dadsinventory.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,13 +18,10 @@ import static com.codecool.dadsinventory.security.ApplicationUserRole.MOM;
 @Configuration
 @EnableWebSecurity
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final PasswordConfig passwordConfig;
-
-    @Autowired
-    public ApplicationSecurityConfig(PasswordConfig passwordConfig) {
-        this.passwordConfig = passwordConfig;
+    @Bean
+    public PasswordConfig passwordConfiguration() {
+        return new PasswordConfig();
     }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -67,13 +63,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected UserDetailsService userDetailsService() {
         UserDetails dad = User.builder()
                 .username("dad")
-                .password(passwordConfig.passwordEncoder().encode("password"))
+                .password(passwordConfiguration().passwordEncoder().encode("password"))
                 .roles(DAD.name())
                 .build();
 
         UserDetails mom = User.builder()
                 .username("mom")
-                .password(passwordConfig.passwordEncoder().encode("password123"))
+                .password(passwordConfiguration().passwordEncoder().encode("password123"))
                 .roles(MOM.name())
                 .build();
 
