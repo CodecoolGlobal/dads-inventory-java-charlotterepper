@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -56,6 +57,23 @@ public class ItemControllerTest {
 
         mvc.perform(get("/search").param("searchterm", searchTerm))
                 .andExpect(status().isFound());
+    }
+
+    @Test
+    @WithMockUser(username = "dad", roles = {"DAD"})
+    void testGetItemByIdWithAuthorizedUser() throws Exception {
+        Long id = 1L;
+        String username = "dad";
+        Item item = new Item(1L, "Car", new Category(), "", 500_000.0, true);
+        when(itemService.getById(id)).thenReturn(item);
+        when(principalService.getPrincipalName()).thenReturn(username);
+
+        mvc.perform(get("/item/details/" + 1))
+                .andExpect(status().isOk())
+                .andExpect(view().name("details"))
+                .andExpect(model().attribute("item", item))
+                .andExpect(model().attribute("principal", username))
+                .andExpect(model().hasNoErrors());
     }
 
 
