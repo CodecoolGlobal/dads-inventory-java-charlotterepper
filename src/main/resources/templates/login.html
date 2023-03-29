@@ -9,7 +9,10 @@
     <link th:href="@{/css/site.css}" rel="stylesheet"/>
 </head>
 <body>
-<div class="container m-5">
+<header>
+    <div th:insert="fragments/navbar"></div>
+</header>
+<div class="container">
     <form class="form-signin" method="post" action="/login">
         <h2 class="form-signin-heading">Please login to Dad's Inventory</h2>
         <div class="form-group row">
@@ -31,5 +34,6 @@
         </div>
     </form>
 </div>
+<div th:insert="fragments/footer"></div>
 </body>
 </html>
