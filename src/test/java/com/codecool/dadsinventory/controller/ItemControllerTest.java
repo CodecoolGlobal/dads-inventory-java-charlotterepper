@@ -30,11 +30,12 @@ public class ItemControllerTest {
 
     @Test
     @WithMockUser(username = "dad", roles = {"DAD"})
-    void testSearch() throws Exception {
+    void testSearchWithAuthorizedUser() throws Exception {
         String searchTerm = "ca";
+        String username = "dad";
         List<Item> items = List.of(new Item(1L, "Car", new Category(), "", 500_000.0, true));
         when(itemService.getAllBySearchTerm(searchTerm)).thenReturn(items);
-        when(principalService.getPrincipalName()).thenReturn("dad");
+        when(principalService.getPrincipalName()).thenReturn(username);
 
         mvc.perform(get("/search").param("searchterm", searchTerm))
                 .andExpect(status().isOk())
@@ -43,4 +44,19 @@ public class ItemControllerTest {
                 .andExpect(model().attribute("items", items))
                 .andExpect(model().hasNoErrors());
     }
+
+    @Test
+    @WithMockUser(username = "mom", roles = {"MOM"})
+    void testSearchWithUnauthorizedUser() throws Exception {
+        String searchTerm = "ca";
+        String username = "mom";
+        List<Item> items = List.of(new Item(1L, "Car", new Category(), "", 500_000.0, true));
+        when(itemService.getAllBySearchTerm(searchTerm)).thenReturn(items);
+        when(principalService.getPrincipalName()).thenReturn(username);
+
+        mvc.perform(get("/search").param("searchterm", searchTerm))
+                .andExpect(status().isFound());
+    }
+
+
 }
