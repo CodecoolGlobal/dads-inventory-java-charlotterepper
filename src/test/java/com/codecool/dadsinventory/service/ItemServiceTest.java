@@ -28,12 +28,13 @@ public class ItemServiceTest {
     void testGetAllBySearchTerm() {
         Item item1 = new Item(1L, "Car", new Category(), "", 500_000.0, true);
         Item item2 = new Item(2L, "Ship", new Category(), "", 100.0, true);
-        when(itemRepository.findAll()).thenReturn(List.of(item1, item2));
-        List<Item> expected = List.of(item2);
+        Item item3 = new Item(3L, "Ashes", new Category(), "", 20.0, true);
+        when(itemRepository.findAll()).thenReturn(List.of(item1, item2, item3));
+        List<Item> expected = List.of(item2, item3);
 
         List<Item> actual = itemService.getAllBySearchTerm("Sh");
 
-        assertEquals(expected.get(0).getName(), actual.get(0).getName());
+        assertEquals(expected, actual);
     }
 
     @Test
