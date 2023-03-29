@@ -76,5 +76,17 @@ public class ItemControllerTest {
                 .andExpect(model().hasNoErrors());
     }
 
+    @Test
+    @WithMockUser(username = "mom", roles = {"MOM"})
+    void testGetItemByIdWithUnauthorizedUser() throws Exception {
+        Long id = 1L;
+        String username = "mom";
+        Item item = new Item(1L, "Car", new Category(), "", 500_000.0, true);
+        when(itemService.getById(id)).thenReturn(item);
+        when(principalService.getPrincipalName()).thenReturn(username);
+
+        mvc.perform(get("/item/details/" + 1))
+                .andExpect(status().isFound());
+    }
 
 }
