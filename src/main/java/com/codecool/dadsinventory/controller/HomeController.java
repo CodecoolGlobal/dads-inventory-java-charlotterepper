@@ -31,7 +31,6 @@ public class HomeController {
         model.addAttribute("title", title);
         log.info("Searchterm is: " + searchTerm);
         List<Item> items = itemService.getAllBySearchTerm(searchTerm);
-        model.addAttribute("title", title);
         model.addAttribute("items", items);
         model.addAttribute("principal", principalService.getPrincipalName());
         return "index";
