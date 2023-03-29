@@ -1,9 +1,8 @@
-package com.codecool.dadsinventory;
+package com.codecool.dadsinventory.service;
 
 import com.codecool.dadsinventory.model.Category;
 import com.codecool.dadsinventory.model.Item;
 import com.codecool.dadsinventory.repository.ItemRepository;
-import com.codecool.dadsinventory.service.ItemService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,6 +34,18 @@ public class ItemServiceTest {
         List<Item> actual = itemService.getAllBySearchTerm("Sh");
 
         assertEquals(expected.get(0).getName(), actual.get(0).getName());
+    }
+
+    @Test
+    void testGetAllByEmptySearchTerm() {
+        Item item1 = new Item(1L, "Car", new Category(), "", 500_000.0, true);
+        Item item2 = new Item(2L, "Ship", new Category(), "", 100.0, true);
+        when(itemRepository.findAll()).thenReturn(List.of(item1, item2));
+        List<Item> expected = List.of(item1, item2);
+
+        List<Item> actual = itemService.getAllBySearchTerm("");
+
+        assertEquals(expected, actual);
     }
 
     @Test
