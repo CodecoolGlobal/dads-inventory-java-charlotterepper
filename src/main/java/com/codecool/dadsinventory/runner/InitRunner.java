@@ -21,7 +21,7 @@ public class InitRunner implements CommandLineRunner {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         Category smallCat = Category.builder().name("small").build();
         Category mediumCat = Category.builder().name("medium").build();
         Category largeCat = Category.builder().name("large").build();

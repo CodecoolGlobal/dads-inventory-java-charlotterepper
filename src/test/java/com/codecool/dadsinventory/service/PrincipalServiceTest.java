@@ -43,6 +43,5 @@ public class PrincipalServiceTest {
         String actual = principalService.getPrincipalName();
 
         assertEquals("testuser", actual);
-
     }
 }
